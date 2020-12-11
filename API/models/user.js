@@ -2,7 +2,6 @@ const { Sequelize, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 
 const Location = require('./location');
-const { getUsers } = require('../controllers/user');
 
 require('dotenv').config({ path: '../config.env' });
 const sequelize = new Sequelize(`${process.env.DB_CONNECTION_STR}`);
