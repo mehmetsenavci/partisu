@@ -4,7 +4,7 @@ const User = require('../models/user');
 module.exports = {
     getLocations: async(req, res) => {
         try{
-            const locations = await Location.findAll({include:{model:User}});
+            const locations = await Location.findAll();
             res.status(200).json({
                 status: 'Success',
                 locations,

@@ -69,7 +69,7 @@ User.checkPassword = async(user, password) => {
 /**************************************************RELATIONS**************************************************/
 
 User.hasMany(Location, {as:'favorites' ,foreignKey:'locationId', foreignKeyConstraint: true});
-Location.belongsTo(User, {foreignKey:'locationId', foreignKeyConstraint: true});
+// Location.belongsTo(User, {foreignKey:'locationId', foreignKeyConstraint: true});
 
 /**************************************************RELATIONS**************************************************/
 
