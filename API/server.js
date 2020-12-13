@@ -1,13 +1,7 @@
 const { Sequelize } = require('sequelize');
 const app = require('./app');
-const PORT = process.env.SERVER_PORT;
+const PORT = 5000 || process.env.SERVER_PORT;
 
-const sequelize = new Sequelize(
-    `${process.env.DB_CONNECTION_STR}`
-    ,{
-        logging: console.log,
-    }
-);
 
 
 

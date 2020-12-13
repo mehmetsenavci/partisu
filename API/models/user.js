@@ -64,10 +64,3 @@ module.exports = (sequelize, DataTypes) => {
 }
 
 
-/**************************************************RELATIONS**************************************************/
-
-// User.hasMany(Location, {as:'favorites' ,foreignKey:'locationId', foreignKeyConstraint: true});
-// Location.belongsTo(User, {foreignKey:'locationId', foreignKeyConstraint: true});
-
-/**************************************************RELATIONS**************************************************/
-
