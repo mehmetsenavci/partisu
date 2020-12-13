@@ -1,6 +1,5 @@
-const User = require('../models/user');
+const { User } = require('../models');
 const jwt = require('jsonwebtoken');
-const user = require('./user');
 
 require('dotenv').config({ path: '../config.env' });
 
@@ -43,7 +42,7 @@ module.exports = {
                 passwordConfirm: req.body.passwordConfirm,
             });
 
-            const token = await jwt.sign({userId: user.userId}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRE});
+            const token = await jwt.sign({userId: newUser.userId}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRE});
             res.status(200).json({
                 status: 'Success',
                 token,

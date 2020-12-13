@@ -1,14 +1,7 @@
-const { Sequelize, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 
-const Location = require('./location');
-
-require('dotenv').config({ path: '../config.env' });
-const sequelize = new Sequelize(`${process.env.DB_CONNECTION_STR}`);
-
-
-
-const User = sequelize.define('User', {
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define('User', {
     userId: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -51,42 +44,30 @@ const User = sequelize.define('User', {
       type: DataTypes.STRING,
       notEmpty: true,
     },
-});
+  });
 
-User.beforeSave(async(user, options) => {
-  hashedPassword = await bcrypt.hash(user.password, 13);
-  user.password = hashedPassword;
-  user.passwordConfirm = undefined;
-});
+  User.beforeSave(async(user, options) => {
+    hashedPassword = await bcrypt.hash(user.password, 13);
+    user.password = hashedPassword;
+    user.passwordConfirm = undefined;
+  });
+  
+  
+  
+  User.checkPassword = async(user, password) => {
+    return await bcrypt.compare(password, user.password);
+  };
 
 
+  return User;
 
-User.checkPassword = async(user, password) => {
-  return await bcrypt.compare(password, user.password);
-};
+}
+
 
 /**************************************************RELATIONS**************************************************/
 
-User.hasMany(Location, {as:'favorites' ,foreignKey:'locationId', foreignKeyConstraint: true});
+// User.hasMany(Location, {as:'favorites' ,foreignKey:'locationId', foreignKeyConstraint: true});
 // Location.belongsTo(User, {foreignKey:'locationId', foreignKeyConstraint: true});
 
 /**************************************************RELATIONS**************************************************/
 
-/*
-(async () => {
-  await User.sync({ force: true });
-})();
-
-
-
-validate: {
-    customValidator(value) {
-      if (value === null && this.age !== 10) {
-        throw new Error("name can't be null unless age is 10");
-      }
-    })
-  }
-*/
-
-
-module.exports = User;

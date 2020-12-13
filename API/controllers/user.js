@@ -1,5 +1,4 @@
-const User = require('../models/user');
-const Location = require('../models/location');
+const { User, Location } = require('../models');
 
 module.exports = {
     getUsers: async(req, res) => {
@@ -56,7 +55,7 @@ module.exports = {
         } catch(err) {
             res.json({
                 status: 'Failed',
-                error: err,
+                error: err.message,
             });
         }
     },

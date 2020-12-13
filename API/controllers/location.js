@@ -1,5 +1,5 @@
-const Location = require('../models/location');
-const User = require('../models/user');
+const { Location } = require('../models');
+
 
 module.exports = {
     getLocations: async(req, res) => {
