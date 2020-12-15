@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const helmet = require('helmet')
+const helmet = require('helmet');
 
 require('dotenv').config({ path: './config.env' });
 const userRouter = require('./routes/user');
@@ -9,10 +9,8 @@ const locationRouter = require('./routes/location');
 
 app.use(express.json());
 
-
 // Middlewares
 app.use(helmet());
-
 
 // Routes
 app.use('/api', authRouter);

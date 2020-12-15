@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "SET NODE_ENV=development & nodemon server.js",
+    "startDev": "SET NODE_ENV=development & node server.js",
+    "startProd": "SET NODE_ENV=production & node server.js"
   },
   "author": "",
   "license": "ISC",
