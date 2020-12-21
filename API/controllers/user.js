@@ -1,4 +1,4 @@
-const { User, Location } = require('../models');
+const { User, Location, Favorite } = require('../models');
 
 module.exports = {
   getUsers: async (req, res) => {
@@ -33,8 +33,6 @@ module.exports = {
         passwordConfirm: body.passwordConfirm,
       });
 
-      user.setFavorites(body.favorites);
-
       res.status(200).json({
         status: 'Success',
         user,
@@ -48,9 +46,7 @@ module.exports = {
   },
   getUser: async (req, res) => {
     try {
-      const user = await User.findByPk(req.params.id, {
-        include: { model: Location, as: 'favorites' },
-      });
+      const user = await User.findByPk(req.params.id);
       res.status(200).json({
         status: 'Success',
         user,
@@ -89,6 +85,39 @@ module.exports = {
       res.json({
         status: 'Failed',
         error: err,
+      });
+    }
+  },
+  getUserFavorites: async (req, res) => {
+    try {
+      const user = await User.findByPk(req.params.id);
+      const favorites = await user.getLocations();
+      res.status(200).json({
+        status: 'Success',
+        favorites,
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: 'Failed',
+        error: err.message,
+      });
+    }
+  },
+  addUserFavorite: async (req, res) => {
+    try {
+      //const user = await User.findByPk(req.params.id);
+      const newFavorite = await Favorite.create({
+        userId: req.params.id,
+        locationId: req.body.locationId,
+      });
+      res.status(200).json({
+        status: 'Success',
+        newFavorite,
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: 'Failed',
+        error: err.message,
       });
     }
   },

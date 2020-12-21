@@ -16,4 +16,9 @@ router
   .patch(userController.updateUser)
   .delete(userController.deleteUser);
 
+router
+  .route('/users/:id/favorites')
+  .get(userController.getUserFavorites)
+  .post(userController.addUserFavorite);
+
 module.exports = router;
