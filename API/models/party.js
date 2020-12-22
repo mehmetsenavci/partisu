@@ -5,6 +5,18 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
+    startTime: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      notEmpty: true,
+      isAfter: `${Date.now()}`,
+    },
+    endTime: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      notEmpty: true,
+      isAfter: `${Date.now()}`,
+    },
   });
 
   return Party;

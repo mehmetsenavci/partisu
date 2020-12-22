@@ -25,3 +25,5 @@ module.exports = (sequelize, DataTypes) => {
 
   return Location;
 };
+
+// TODO: CHANGE LAT AND LONG TO POINT FROM STRING

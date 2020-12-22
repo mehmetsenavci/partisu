@@ -44,6 +44,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       notEmpty: true,
     },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+      allowNull: false,
+      notEmpty: true,
+    },
   });
 
   User.beforeSave(async (user, options) => {

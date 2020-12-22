@@ -10,6 +10,7 @@ const Location = require('./location')(sequelize, DataTypes);
 const User = require('./user')(sequelize, DataTypes);
 const Party = require('./party')(sequelize, DataTypes);
 const Favorite = require('./favorite')(sequelize, DataTypes);
+const Attendee = require('./attendee')(sequelize, DataTypes);
 
 Party.belongsTo(User, {
   foreignKey: { name: 'creatorId', allowNull: false },
@@ -25,6 +26,14 @@ User.belongsToMany(Location, {
 Location.belongsToMany(User, {
   foreignKey: { name: 'locationId', allowNull: false },
   through: Favorite,
+});
+User.belongsToMany(Party, {
+  foreignKey: { name: 'attendeeId', allowNull: false },
+  through: Attendee,
+});
+Party.belongsToMany(User, {
+  foreignKey: { name: 'partyId', allowNull: false },
+  through: Attendee,
 });
 
 /*
@@ -42,6 +51,10 @@ Location.belongsToMany(User, {
 
 (async () => {
   await Favorite.sync({ foce: true });
+})();
+
+(async () => {
+  await Attendee.sync({ foce: true });
 })();
 
 (async () => {
@@ -87,4 +100,4 @@ Location.belongsToMany(User, {
 })();
 */
 
-module.exports = { User, Location, Party, Favorite };
+module.exports = { User, Location, Party, Favorite, Attendee };
