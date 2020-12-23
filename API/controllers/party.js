@@ -17,12 +17,19 @@ module.exports = {
   },
   createParty: async (req, res) => {
     try {
+      const endTime = new Date(req.body.endTime).toISOString();
+      const startTime = new Date(req.body.startTime).toISOString();
+      console.log(endTime);
+
+      //TODO: Edit the +00:00 timezone
+
       const newParty = await Party.create({
-        creatorId: req.boy.creatorId,
+        creatorId: req.body.creatorId,
         locationId: req.body.locationId,
-        endTime: req.body.endTime,
-        startTime: req.body.startTime,
+        endTime: endTime,
+        startTime: startTime,
       });
+
       res.status(200).json({
         status: 'Success',
         newParty,
@@ -50,8 +57,8 @@ module.exports = {
   },
   updateParty: async (req, res) => {
     try {
-      const party = Party.findByPk(req.params.id);
-      const updatedParty = party.update(req.body);
+      const party = await Party.findByPk(req.params.id);
+      const updatedParty = await party.update(req.body);
       res.status(200).json({
         status: 'Success',
         updatedParty,
@@ -63,10 +70,10 @@ module.exports = {
       });
     }
   },
-  deleteFavorite: async (req, res) => {
+  deletedParty: async (req, res) => {
     try {
       const deletedParty = await Party.destroy({
-        where: { favoriteId: req.params.id },
+        where: { partyId: req.params.id },
       });
       res.status(200).json({
         status: 'Success',

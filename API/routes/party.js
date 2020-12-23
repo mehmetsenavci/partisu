@@ -12,6 +12,6 @@ router
   .route('/parties/:id')
   .get(partyController.getParty)
   .patch(partyController.updateParty)
-  .delete(partyController.updateParty);
+  .delete(partyController.deletedParty);
 
 module.exports = router;
