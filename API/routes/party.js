@@ -14,4 +14,14 @@ router
   .patch(partyController.updateParty)
   .delete(partyController.deletedParty);
 
+router
+  .route('/parties/:id/attendees')
+  .get(partyController.getAttendeesForParty)
+  .post(partyController.createAttendeeForParty);
+
+router
+  .route('/parties/:id/attendees/:attendeeId')
+  .get(partyController.getAttendeeFromParty)
+  .delete(partyController.deleteAttendeeFromParty);
+
 module.exports = router;
