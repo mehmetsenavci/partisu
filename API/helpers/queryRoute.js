@@ -1,20 +1,32 @@
 module.exports = {
-  pagination: (model, queryObj) => {
-    let offset = queryObj.limit * queryObj.page;
-    if (Number.isNaN(offset)) offset = undefined;
-
-    return model.findAll({
-      limit: queryObj.limit,
-      offset: offset,
-    });
-  },
-  fields: (model, queryObj) => {
+  fields: (queryObj) => {
+    // FIELDS
+    let fields = [];
     if (queryObj.fields !== undefined) {
-      const fields = queryObj.fields.split(',');
-      console.log(fields);
-      return model.findAll({ attributes: fields });
+      fields = queryObj.fields.split(',');
     } else {
-      return model.findAll();
+      fields = '';
     }
+    return fields;
+  },
+  filter: (queryObj) => {
+    const filter = queryObj.where;
+    return filter;
+  },
+  pagination: (queryObj) => {
+    const offset = Number.isNaN(queryObj.limit * queryObj.page)
+      ? undefined
+      : queryObj.limit * queryObj.page;
+
+    return { offset, limit: queryObj.limit };
+  },
+  sort: (queryObj) => {
+    let sort = [];
+    if (queryObj.sort !== undefined) {
+      sort = queryObj.sort.split(',');
+    } else {
+      sort = 'createdAt';
+    }
+    return [sort];
   },
 };

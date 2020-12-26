@@ -1,4 +1,4 @@
-const { fields } = require('../helpers/queryRoute');
+const modelQuery = require('../helpers/queryRoute');
 const { User, Location, Favorite } = require('../models');
 
 module.exports = {
@@ -8,37 +8,22 @@ module.exports = {
       console.log(queryObj);
 
       // FIELDS
-      let fields = [];
-      if (queryObj.fields !== undefined) {
-        fields = queryObj.fields.split(',');
-        console.log(fields);
-      } else {
-        fields = '';
-      }
+      const fields = modelQuery.fields(queryObj);
 
       // PAGINATON
-      const offset = Number.isNaN(queryObj.limit * queryObj.page)
-        ? undefined
-        : queryObj.limit * queryObj.page;
-
+      const { offset, limit } = modelQuery.pagination(queryObj);
       // FILTER
-      const filter = queryObj.where;
+      const filter = modelQuery.filter(queryObj);
 
       // SORT
-      let sort = [];
-      if (queryObj.sort !== undefined) {
-        sort = queryObj.sort.split(',');
-        console.log(sort);
-      } else {
-        sort = 'createdAt';
-      }
+      const sort = modelQuery.sort(queryObj);
 
       const users = await User.findAll({
         where: filter,
         attributes: fields,
-        limit: queryObj.limit,
+        limit: limit,
         offset: offset,
-        order: [sort],
+        order: sort,
       });
 
       res.status(200).json({
