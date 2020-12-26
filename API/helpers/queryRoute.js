@@ -23,11 +23,13 @@ module.exports = {
   sort: (queryObj) => {
     let sort = [];
     if (queryObj.sort !== undefined) {
-      sort = queryObj.sort.split(',');
+      queryObj.sort.split(',').forEach((value) => {
+        sort.push([value]);
+      });
     } else {
-      sort = 'createdAt';
+      sort = ['createdAt'];
     }
-    return [sort];
+    return sort;
   },
   fullQuery: function (queryObj) {
     const sort = this.sort(queryObj);
