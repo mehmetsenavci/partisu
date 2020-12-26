@@ -29,4 +29,18 @@ module.exports = {
     }
     return [sort];
   },
+  fullQuery: function (queryObj) {
+    const sort = this.sort(queryObj);
+    const { offset, limit } = this.pagination(queryObj);
+    const filter = this.filter(queryObj);
+    const fields = this.fields(queryObj);
+
+    return {
+      where: filter,
+      attributes: fields,
+      limit: limit,
+      offset: offset,
+      order: sort,
+    };
+  },
 };

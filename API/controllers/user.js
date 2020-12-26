@@ -7,24 +7,8 @@ module.exports = {
       const queryObj = { ...req.query };
       console.log(queryObj);
 
-      // FIELDS
-      const fields = modelQuery.fields(queryObj);
-
-      // PAGINATON
-      const { offset, limit } = modelQuery.pagination(queryObj);
-      // FILTER
-      const filter = modelQuery.filter(queryObj);
-
-      // SORT
-      const sort = modelQuery.sort(queryObj);
-
-      const users = await User.findAll({
-        where: filter,
-        attributes: fields,
-        limit: limit,
-        offset: offset,
-        order: sort,
-      });
+      const query = modelQuery.fullQuery(queryObj);
+      const users = await User.findAll(query);
 
       res.status(200).json({
         status: 'Success',
