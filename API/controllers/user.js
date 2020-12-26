@@ -1,9 +1,46 @@
+const { fields } = require('../helpers/queryRoute');
 const { User, Location, Favorite } = require('../models');
 
 module.exports = {
   getUsers: async (req, res) => {
     try {
-      const users = await User.findAll();
+      const queryObj = { ...req.query };
+      console.log(queryObj);
+
+      // FIELDS
+      let fields = [];
+      if (queryObj.fields !== undefined) {
+        fields = queryObj.fields.split(',');
+        console.log(fields);
+      } else {
+        fields = '';
+      }
+
+      // PAGINATON
+      const offset = Number.isNaN(queryObj.limit * queryObj.page)
+        ? undefined
+        : queryObj.limit * queryObj.page;
+
+      // FILTER
+      const filter = queryObj.where;
+
+      // SORT
+      let sort = [];
+      if (queryObj.sort !== undefined) {
+        sort = queryObj.sort.split(',');
+        console.log(sort);
+      } else {
+        sort = 'createdAt';
+      }
+
+      const users = await User.findAll({
+        where: filter,
+        attributes: fields,
+        limit: queryObj.limit,
+        offset: offset,
+        order: [sort],
+      });
+
       res.status(200).json({
         status: 'Success',
         users,

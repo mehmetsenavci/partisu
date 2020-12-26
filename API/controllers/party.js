@@ -17,17 +17,14 @@ module.exports = {
   },
   createParty: async (req, res) => {
     try {
-      const endTime = new Date(req.body.endTime).toISOString();
-      const startTime = new Date(req.body.startTime).toISOString();
-      console.log(endTime);
-
       //TODO: Edit the +00:00 timezone
+      console.log(req.body.startTime);
 
       const newParty = await Party.create({
         creatorId: req.body.creatorId,
         locationId: req.body.locationId,
-        endTime: endTime,
-        startTime: startTime,
+        endTime: req.body.endTime,
+        startTime: req.body.startTime,
       });
 
       res.status(200).json({
