@@ -32,7 +32,7 @@ module.exports = {
       passwordConfirm: body.passwordConfirm,
     });
 
-    res.status(200).json({
+    res.status(201).json({
       status: 'Success',
       user,
     });
@@ -56,14 +56,17 @@ module.exports = {
     const userId = req.params.id;
 
     const deletedUser = await User.destroy({ where: { userId: userId } });
-    res.status(200).json({
+    res.status(204).json({
       status: 'Success',
       user: deletedUser,
     });
   }),
   getUserFavorites: asyncCatch(async (req, res) => {
-    const user = await User.findByPk(req.params.id);
-    const favorites = await user.getLocations();
+    const favorites = await Favorite.findAll({
+      where: { userId: req.params.id },
+      include: Location,
+    });
+    // const favorites = await user.getLocations();
     res.status(200).json({
       status: 'Success',
       favorites,

@@ -17,7 +17,7 @@ module.exports = {
       longitude: body.longitude,
     });
 
-    res.status(200).json({
+    res.status(201).json({
       status: 'Success',
       location,
     });
@@ -43,7 +43,7 @@ module.exports = {
     const deletedLocation = await Location.destroy({
       where: { locationId: locationId },
     });
-    res.status(200).json({
+    res.status(204).json({
       status: 'Success',
       location: deletedLocation,
     });

@@ -31,24 +31,19 @@ Party.belongsTo(User, {
 Party.belongsTo(Location, {
   foreignKey: { name: 'locationId', allowNull: false },
 });
-User.belongsToMany(Location, {
+Favorite.belongsTo(User, {
   foreignKey: { name: 'userId', allowNull: false },
-  through: Favorite,
 });
-Location.belongsToMany(User, {
+Favorite.belongsTo(Location, {
   foreignKey: { name: 'locationId', allowNull: false },
-  through: Favorite,
 });
-User.belongsToMany(Party, {
-  foreignKey: { name: 'attendeeId', allowNull: false },
-  through: Attendee,
-});
-Party.belongsToMany(User, {
+Attendee.belongsTo(Party, {
   foreignKey: { name: 'partyId', allowNull: false },
-  through: Attendee,
+});
+Attendee.belongsTo(User, {
+  foreignKey: { name: 'attendeeId', allowNull: false },
 });
 
-/*
 (async () => {
   await User.sync({ foce: true });
 })();
@@ -69,6 +64,7 @@ Party.belongsToMany(User, {
   await Attendee.sync({ foce: true });
 })();
 
+/*
 (async () => {
   try {
     const p = await Favorite.create({

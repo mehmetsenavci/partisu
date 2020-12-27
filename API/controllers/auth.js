@@ -71,7 +71,7 @@ module.exports = {
 
         next(new Error('Unauthorized user!'));
       } catch (err) {
-        res.status(401).json({
+        res.status(403).json({
           status: 'Failed',
           error: err.message,
         });

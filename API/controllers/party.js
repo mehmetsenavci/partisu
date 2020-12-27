@@ -1,9 +1,9 @@
-const { Party, Attendee } = require('../models');
+const { Party, Attendee, User } = require('../models');
 const asyncCatch = require('../helpers/asyncCatch');
 
 module.exports = {
   getParties: asyncCatch(async (req, res) => {
-    const parties = await Party.findAll();
+    const parties = await Party.findAll({ include: User });
     res.status(200).json({
       status: 'Success',
       parties,
@@ -20,7 +20,7 @@ module.exports = {
       startTime: req.body.startTime,
     });
 
-    res.status(200).json({
+    res.status(201).json({
       status: 'Success',
       newParty,
     });
@@ -44,7 +44,7 @@ module.exports = {
     const deletedParty = await Party.destroy({
       where: { partyId: req.params.id },
     });
-    res.status(200).json({
+    res.status(204).json({
       status: 'Success',
       user: deletedParty,
     });
@@ -52,6 +52,7 @@ module.exports = {
   getAttendeesForParty: asyncCatch(async (req, res) => {
     const attendies = await Attendee.findAll({
       where: { partyId: req.params.id },
+      include: User,
     });
     res.status(200).json({
       status: 'Success',
@@ -64,7 +65,7 @@ module.exports = {
       partyId: req.params.id,
     });
 
-    res.status(200).json({
+    res.status(201).json({
       status: 'Success',
       newAttendee,
     });
@@ -72,6 +73,7 @@ module.exports = {
   getAttendeeFromParty: asyncCatch(async (req, res) => {
     const attendee = await Attendee.findOne({
       where: { partyId: req.params.id, attendeeId: req.params.attendeeId },
+      include: User,
     });
     res.status(200).json({
       status: 'Success',
@@ -82,7 +84,7 @@ module.exports = {
     const deletedAttendee = await Attendee.destroy({
       where: { partyId: req.params.id, attendeeId: req.params.attendeeId },
     });
-    res.status(200).json({
+    res.status(204).json({
       status: 'Success',
       user: deletedAttendee,
     });

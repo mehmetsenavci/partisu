@@ -3,7 +3,7 @@ const asyncCatch = require('../helpers/asyncCatch');
 
 module.exports = {
   getFavorites: asyncCatch(async (req, res) => {
-    const favorites = await Favorite.findAll();
+    const favorites = await Favorite.findAll({ include: Location });
     res.status(200).json({
       status: 'Success',
       favorites,
@@ -14,7 +14,7 @@ module.exports = {
       userId: req.body.userId,
       locationId: req.body.locationId,
     });
-    res.status(200).json({
+    res.status(201).json({
       status: 'Success',
       newFavorite,
     });
@@ -30,7 +30,7 @@ module.exports = {
     const deletedFavorite = await Favorite.destroy({
       where: { favoriteId: req.params.id },
     });
-    res.status(200).json({
+    res.status(204).json({
       status: 'Success',
       user: deletedFavorite,
     });
