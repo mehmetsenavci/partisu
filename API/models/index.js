@@ -44,6 +44,7 @@ Attendee.belongsTo(User, {
   foreignKey: { name: 'attendeeId', allowNull: false },
 });
 
+/*
 (async () => {
   await User.sync({ foce: true });
 })();
@@ -64,7 +65,6 @@ Attendee.belongsTo(User, {
   await Attendee.sync({ foce: true });
 })();
 
-/*
 (async () => {
   try {
     const p = await Favorite.create({
