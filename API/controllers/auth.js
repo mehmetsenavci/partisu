@@ -1,20 +1,23 @@
 const { User } = require('../models');
 const asyncCatch = require('../helpers/asyncCatch');
 const jwt = require('jsonwebtoken');
+const APIError = require('../helpers/apiError');
 
 require('dotenv').config({ path: '../config.env' });
 
 module.exports = {
   login: asyncCatch(async (req, res, next) => {
     if (!req.body.email || !req.body.password)
-      return next(new Error('Email or password field cannot be empty!'));
+      return next(
+        new APIError('Email or password field cannot be empty!', 401)
+      );
     const user = await User.findOne({ where: { email: req.body.email } });
     if (!user) {
-      return next(new Error('Incorrect password or email!'));
+      return next(new APIError('Incorrect password or email!', 401));
     }
     isCorrectPassword = await User.checkPassword(user, req.body.password);
     if (!isCorrectPassword) {
-      return next(new Error('Incorrect password or email!'));
+      return next(new APIError('Incorrect password or email!', 401));
     }
     const token = await jwt.sign(
       { userId: user.userId },
@@ -52,7 +55,7 @@ module.exports = {
   authenticateUser: asyncCatch(async (req, res, next) => {
     const tokenHeader = req.headers.authorization;
 
-    if (!tokenHeader) return next(new Error('User not logged in!'));
+    if (!tokenHeader) return next(new APIError('User not logged in!', 401));
 
     const token = tokenHeader.split(' ')[1];
 
@@ -69,7 +72,7 @@ module.exports = {
       try {
         if (req.user && roles.includes(req.user.role)) next();
 
-        next(new Error('Unauthorized user!'));
+        next(new APIError('Unauthorized user!', 403));
       } catch (err) {
         res.status(403).json({
           status: 'Failed',

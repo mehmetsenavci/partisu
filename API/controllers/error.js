@@ -7,7 +7,7 @@ module.exports = (err, req, res, next) => {
   console.log(process.env.NODE_ENV === 'development ');
   if (process.env.NODE_ENV === 'development ') {
     devError(res, err);
-  } else {
+  } else if (process.env.NODE_ENV === 'production ') {
     next();
   }
 };
