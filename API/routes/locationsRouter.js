@@ -1,6 +1,7 @@
 const express = require('express');
+
 const router = express.Router();
-const locationController = require('../controllers/location');
+const locationController = require('../controllers/locationsController');
 // const authController = require('../controllers/auth');
 
 // router.use(authController.authenticateUser);

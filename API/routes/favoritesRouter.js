@@ -1,7 +1,7 @@
 const express = require('express');
-const router = express.Router();
 
-const favoriteController = require('../controllers/favorite');
+const router = express.Router();
+const favoriteController = require('../controllers/favoritesController');
 
 // No update route.
 router

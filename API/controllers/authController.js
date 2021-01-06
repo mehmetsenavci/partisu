@@ -1,6 +1,6 @@
+const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const asyncCatch = require('../helpers/asyncCatch');
-const jwt = require('jsonwebtoken');
 const APIError = require('../helpers/apiError');
 
 require('dotenv').config({ path: '../config.env' });
@@ -15,7 +15,7 @@ module.exports = {
     if (!user) {
       return next(new APIError('Incorrect password or email!', 401));
     }
-    isCorrectPassword = await User.checkPassword(user, req.body.password);
+    const isCorrectPassword = await User.checkPassword(user, req.body.password);
     if (!isCorrectPassword) {
       return next(new APIError('Incorrect password or email!', 401));
     }

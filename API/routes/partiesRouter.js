@@ -1,7 +1,7 @@
 const express = require('express');
-const router = express.Router();
 
-const partyController = require('../controllers/party');
+const router = express.Router();
+const partyController = require('../controllers/partiesController');
 
 router
   .route('/parties')

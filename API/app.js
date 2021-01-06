@@ -4,13 +4,13 @@ const helmet = require('helmet');
 const app = express();
 
 require('dotenv').config({ path: './config.env' });
-const userRouter = require('./routes/user');
-const authRouter = require('./routes/auth');
-const locationRouter = require('./routes/location');
-const favoriteRouter = require('./routes/favorite');
-const partyRouter = require('./routes/party');
+const userRouter = require('./routes/usersRouter');
+const authRouter = require('./routes/authRouter');
+const locationRouter = require('./routes/locationsRouter');
+const favoriteRouter = require('./routes/favoritesRouter');
+const partyRouter = require('./routes/partiesRouter');
 
-const errorController = require('./controllers/error');
+const errorController = require('./controllers/errorController');
 
 app.use(express.json());
 
