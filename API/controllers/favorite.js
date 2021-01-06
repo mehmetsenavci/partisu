@@ -1,4 +1,4 @@
-const { User, Favorite, Location } = require('../models');
+const { Favorite, Location } = require('../models');
 const asyncCatch = require('../helpers/asyncCatch');
 const APIError = require('../helpers/apiError');
 
