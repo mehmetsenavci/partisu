@@ -4,12 +4,15 @@ const APIError = require('../helpers/apiError');
 const { User, Location, Favorite } = require('../models');
 
 module.exports = {
-  getUsers: asyncCatch(async (req, res) => {
+  getUsers: asyncCatch(async (req, res, next) => {
     const queryObj = { ...req.query };
-    console.log(queryObj);
 
     const query = modelQuery.fullQuery(queryObj);
     const users = await User.findAll(query);
+
+    if (users.length === 0) {
+      return next(new APIError('There are no users', 404));
+    }
 
     res.status(200).json({
       status: 'Success',
@@ -38,8 +41,13 @@ module.exports = {
       user,
     });
   }),
-  getUser: asyncCatch(async (req, res) => {
+  getUser: asyncCatch(async (req, res, next) => {
     const user = await User.findByPk(req.params.id);
+
+    if (user === null) {
+      return next(new APIError('User not found', 404));
+    }
+
     res.status(200).json({
       status: 'Success',
       user,
@@ -48,6 +56,7 @@ module.exports = {
   updateUser: asyncCatch(async (req, res) => {
     const user = await User.findByPk(req.params.id);
     const updatedUser = await user.update(req.body);
+
     res.status(200).json({
       status: 'Success',
       user: updatedUser,
@@ -55,18 +64,25 @@ module.exports = {
   }),
   deleteUser: asyncCatch(async (req, res) => {
     const userId = req.params.id;
-
     const deletedUser = await User.destroy({ where: { userId: userId } });
+
     res.status(204).json({
       status: 'Success',
       user: deletedUser,
     });
   }),
-  getUserFavorites: asyncCatch(async (req, res) => {
+  getUserFavorites: asyncCatch(async (req, res, next) => {
     const favorites = await Favorite.findAll({
       where: { userId: req.params.id },
       include: Location,
     });
+
+    if (favorites.length === 0) {
+      return next(
+        new APIError('Given user does not have any favorite locations.', 404)
+      );
+    }
+
     // const favorites = await user.getLocations();
     res.status(200).json({
       status: 'Success',

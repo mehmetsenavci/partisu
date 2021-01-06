@@ -1,5 +1,9 @@
 function devError(res, err) {
-  res.status(500).json({ err });
+  res.status(500).json({
+    status: err.status,
+    statusCode: err.statusCode,
+    message: err.message,
+  });
 }
 
 module.exports = (err, req, res, next) => {
