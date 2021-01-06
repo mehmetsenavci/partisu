@@ -10,7 +10,7 @@ module.exports = {
     });
   }),
   createParty: asyncCatch(async (req, res) => {
-    //TODO: Edit the +00:00 timezone
+    // TODO: Edit the +00:00 timezone
     console.log(req.body.startTime);
 
     const newParty = await Party.create({

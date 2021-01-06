@@ -1,5 +1,6 @@
 const modelQuery = require('../helpers/queryRoute');
 const asyncCatch = require('../helpers/asyncCatch');
+const APIError = require('../helpers/apiError');
 const { User, Location, Favorite } = require('../models');
 
 module.exports = {
@@ -16,10 +17,10 @@ module.exports = {
     });
   }),
   createUser: asyncCatch(async (req, res, next) => {
-    const body = req.body;
+    const { body } = req;
     if (body.password !== body.passwordConfirm)
       return next(
-        new Error('Password confirmation must be same with password!')
+        new APIError('Password confirmation must be same with password!', 400)
       );
     const user = await User.create({
       firstName: body.firstName,
@@ -73,7 +74,7 @@ module.exports = {
     });
   }),
   addUserFavorite: asyncCatch(async (req, res) => {
-    //const user = await User.findByPk(req.params.id);
+    // const user = await User.findByPk(req.params.id);
     const newFavorite = await Favorite.create({
       userId: req.params.id,
       locationId: req.body.locationId,

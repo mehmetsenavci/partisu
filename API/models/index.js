@@ -4,7 +4,7 @@ require('dotenv').config({ path: '../config.env' });
 const sequelize = new Sequelize(`${process.env.DB_CONNECTION_STR}`, {
   logging: false,
   dialectOptions: {
-    useUTC: false, //for reading from database
+    useUTC: false, // for reading from database
     dateStrings: true,
     typeCast: function (field, next) {
       // for reading from database
