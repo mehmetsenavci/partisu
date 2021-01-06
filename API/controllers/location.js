@@ -7,7 +7,7 @@ module.exports = {
     const locations = await Location.findAll();
 
     if (locations.length === 0) {
-      return next(new APIError("Can't find any locations", 404));
+      return next(new APIError('Cannot find any locations.', 404));
     }
 
     res.status(200).json({

@@ -1,9 +1,15 @@
 const { User, Favorite, Location } = require('../models');
 const asyncCatch = require('../helpers/asyncCatch');
+const APIError = require('../helpers/apiError');
 
 module.exports = {
-  getFavorites: asyncCatch(async (req, res) => {
+  getFavorites: asyncCatch(async (req, res, next) => {
     const favorites = await Favorite.findAll({ include: Location });
+
+    if (favorites.length === 0) {
+      return next(new APIError('Cannot find any favorites', 404));
+    }
+
     res.status(200).json({
       status: 'Success',
       favorites,
@@ -19,8 +25,13 @@ module.exports = {
       newFavorite,
     });
   }),
-  getFavorite: asyncCatch(async (req, res) => {
+  getFavorite: asyncCatch(async (req, res, next) => {
     const favorite = await Favorite.findByPk(req.params.id);
+
+    if (favorite === null) {
+      return next(new APIError('Such favorite does not exist.', 404));
+    }
+
     res.status(200).json({
       status: 'Success',
       favorite,
