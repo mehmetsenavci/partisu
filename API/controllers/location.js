@@ -1,16 +1,22 @@
 const { Location } = require('../models');
 const asyncCatch = require('../helpers/asyncCatch');
+const APIError = require('../helpers/apiError');
 
 module.exports = {
-  getLocations: asyncCatch(async (req, res) => {
+  getLocations: asyncCatch(async (req, res, next) => {
     const locations = await Location.findAll();
+
+    if (locations.length === 0) {
+      return next(new APIError("Can't find any locations", 404));
+    }
+
     res.status(200).json({
       status: 'Success',
       locations,
     });
   }),
   createLocation: asyncCatch(async (req, res) => {
-    const body = req.body;
+    const { body } = req;
     const location = await Location.create({
       locationName: body.locationName,
       latitude: body.latitude,
@@ -22,8 +28,13 @@ module.exports = {
       location,
     });
   }),
-  getLocation: asyncCatch(async (req, res) => {
+  getLocation: asyncCatch(async (req, res, next) => {
     const location = await Location.findByPk(req.params.id);
+
+    if (location === null) {
+      return next(new APIError('Such location does not exist.', 404));
+    }
+
     res.status(200).json({
       status: 'Success',
       location,
