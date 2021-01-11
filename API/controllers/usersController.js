@@ -89,15 +89,42 @@ module.exports = {
       favorites,
     });
   }),
+  getUserFavorite: asyncCatch(async (req, res, next) => {
+    const userFavorite = await Favorite.findAll({
+      where: { userId: req.params.id, favoriteId: req.params.favId },
+      include: Location,
+    });
+    if (userFavorite.length === 0) {
+      return next(
+        new APIError(
+          'Given user does not have this location in favorites.',
+          404
+        )
+      );
+    }
+    res.status(200).json({
+      status: 'Success',
+      userFavorite,
+    });
+  }),
   addUserFavorite: asyncCatch(async (req, res) => {
     // const user = await User.findByPk(req.params.id);
     const newFavorite = await Favorite.create({
       userId: req.params.id,
       locationId: req.body.locationId,
     });
-    res.status(200).json({
+    res.status(201).json({
       status: 'Success',
       newFavorite,
+    });
+  }),
+  deleteUserFavorite: asyncCatch(async (req, res) => {
+    const deletedFavorite = await Favorite.destroy({
+      where: { userId: req.params.id, favoriteId: req.params.favId },
+    });
+    res.status(204).json({
+      status: 'Success',
+      deletedFavorite,
     });
   }),
 };

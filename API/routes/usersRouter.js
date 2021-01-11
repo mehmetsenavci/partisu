@@ -22,4 +22,9 @@ router
   .get(userController.getUserFavorites)
   .post(userController.addUserFavorite);
 
+router
+  .route('/users/:id/favorites/:favId')
+  .get(userController.getUserFavorite)
+  .delete(userController.deleteUserFavorite);
+
 module.exports = router;
