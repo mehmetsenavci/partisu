@@ -3,6 +3,7 @@ const APIError = require('../helpers/apiError');
 function devError(res, err) {
   res.status(err.statusCode).json({
     status: err.status,
+    name: err.name,
     message: err.message,
     stack: err.stack,
   });
