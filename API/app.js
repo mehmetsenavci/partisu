@@ -12,9 +12,8 @@ const partyRouter = require('./routes/partiesRouter');
 
 const errorController = require('./controllers/errorController');
 
-app.use(express.json());
-
 // Middlewares
+app.use(express.json());
 app.use(helmet());
 
 // Routes

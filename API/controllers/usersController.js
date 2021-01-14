@@ -1,3 +1,4 @@
+const cacheMiddlewares = require('../helpers/cacheRedis');
 const modelQuery = require('../helpers/queryRoute');
 const asyncCatch = require('../helpers/asyncCatch');
 const APIError = require('../helpers/apiError');
@@ -14,10 +15,12 @@ module.exports = {
       return next(new APIError('There are no users', 404));
     }
 
-    res.status(200).json({
+    const response = cacheMiddlewares.setDataToCache({
       status: 'Success',
       users,
     });
+
+    res.status(200).json(response);
   }),
   createUser: asyncCatch(async (req, res, next) => {
     const { body } = req;

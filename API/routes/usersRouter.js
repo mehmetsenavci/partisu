@@ -2,12 +2,13 @@ const express = require('express');
 
 const router = express.Router();
 const userController = require('../controllers/usersController');
-// const authController = require('../controllers/auth');
+const cacheMiddleware = require('../helpers/cacheRedis');
+// const authController = require('../controllers/authController');
 
 // router.use(authController.authenticateUser);
 router
   .route('/users')
-  .get(userController.getUsers)
+  .get(cacheMiddleware.getDataFromCache, userController.getUsers)
   .post(userController.createUser);
 
 // router.use(authController.isAuthorized('admin'));
