@@ -16,6 +16,7 @@ client.on('error', (err) => {
 module.exports = {
   getDataFromCache: asyncCatch(async (req, res, next) => {
     console.log(req.headers.cachekey);
+
     const data = await getAsync(req.headers.cachekey);
     if (data) {
       console.log('Data from cache');
@@ -27,8 +28,7 @@ module.exports = {
   setDataToCache: (data) => {
     const cacheKey = v4();
     const response = { cacheKey, ...data };
-    console.log(response.cacheKey);
-    client.setex(response.cacheKey, 30, JSON.stringify(response));
+    client.setex(response.cacheKey, 1800, JSON.stringify(response));
     return response;
   },
 };

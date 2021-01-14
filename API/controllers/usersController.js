@@ -1,4 +1,4 @@
-const cacheMiddlewares = require('../helpers/cacheRedis');
+const cacheHelpers = require('../helpers/cacheRedis');
 const modelQuery = require('../helpers/queryRoute');
 const asyncCatch = require('../helpers/asyncCatch');
 const APIError = require('../helpers/apiError');
@@ -15,11 +15,10 @@ module.exports = {
       return next(new APIError('There are no users', 404));
     }
 
-    const response = cacheMiddlewares.setDataToCache({
+    const response = cacheHelpers.setDataToCache({
       status: 'Success',
       users,
     });
-
     res.status(200).json(response);
   }),
   createUser: asyncCatch(async (req, res, next) => {
@@ -51,10 +50,12 @@ module.exports = {
       return next(new APIError('User not found', 404));
     }
 
-    res.status(200).json({
+    const response = cacheHelpers.setDataToCache({
       status: 'Success',
       user,
     });
+
+    res.status(200).json(response);
   }),
   updateUser: asyncCatch(async (req, res) => {
     const user = await User.findByPk(req.params.id);
@@ -86,11 +87,13 @@ module.exports = {
       );
     }
 
-    // const favorites = await user.getLocations();
-    res.status(200).json({
+    const response = cacheHelpers.setDataToCache({
       status: 'Success',
       favorites,
     });
+
+    // const favorites = await user.getLocations();
+    res.status(200).json(response);
   }),
   getUserFavorite: asyncCatch(async (req, res, next) => {
     const userFavorite = await Favorite.findAll({
@@ -105,10 +108,12 @@ module.exports = {
         )
       );
     }
-    res.status(200).json({
+
+    const response = cacheHelpers.setDataToCache({
       status: 'Success',
       userFavorite,
     });
+    res.status(200).json(response);
   }),
   addUserFavorite: asyncCatch(async (req, res) => {
     // const user = await User.findByPk(req.params.id);
