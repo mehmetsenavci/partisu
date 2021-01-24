@@ -16,7 +16,6 @@ client.on('error', (err) => {
 module.exports = {
   getDataFromCache: asyncCatch(async (req, res, next) => {
     console.log(req.headers.cachekey);
-
     const data = await getAsync(req.headers.cachekey);
     if (data) {
       console.log('Data from cache');
