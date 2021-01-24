@@ -7,15 +7,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     startTime: {
       type: DataTypes.DATE,
-      allowNull: false,
-      notEmpty: true,
-      isAfter: `${Date.now()}`,
+      validate: { allowNull: false, notEmpty: true, isAfter: `${Date.now()}` },
     },
     endTime: {
       type: DataTypes.DATE,
-      allowNull: false,
-      notEmpty: true,
-      isAfter: `${Date.now()}`,
+      validate: { allowNull: false, notEmpty: true, isAfter: `${Date.now()}` },
     },
   });
 

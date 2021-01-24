@@ -9,16 +9,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     firstName: {
       type: DataTypes.STRING,
-      allowNull: false,
+      validate: { allowNull: false },
     },
     lastName: {
       type: DataTypes.STRING,
-      allowNull: false,
+      validate: { allowNull: false },
     },
     dob: {
       type: DataTypes.DATEONLY,
-      allowNull: false,
-      notEmpty: true,
+      validate: { allowNull: false, notEmpty: true },
     },
     email: {
       type: DataTypes.STRING,
@@ -27,8 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     username: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
+      validate: { allowNull: false, unique: true },
     },
     role: {
       type: DataTypes.ENUM,
@@ -37,29 +35,27 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
-      notEmpty: true,
+      validate: { allowNull: false, notEmpty: true },
     },
     passwordConfirm: {
       type: DataTypes.STRING,
-      notEmpty: true,
+      validate: { notEmpty: true },
     },
     isActive: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
-      allowNull: false,
-      notEmpty: true,
+      validate: { allowNull: false, notEmpty: true },
     },
   });
 
   User.beforeSave(async (user, options) => {
-    hashedPassword = await bcrypt.hash(user.password, 13);
+    const hashedPassword = await bcrypt.hash(user.password, 13);
     user.password = hashedPassword;
     user.passwordConfirm = undefined;
   });
 
-  User.checkPassword = async (user, password) => {
-    return await bcrypt.compare(password, user.password);
+  User.checkPassword = (user, password) => {
+    return bcrypt.compare(password, user.password);
   };
 
   return User;

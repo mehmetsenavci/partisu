@@ -7,19 +7,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     locationName: {
       type: DataTypes.STRING,
-      allowNull: false,
-      notEmpty: true,
-      unique: true,
+      validate: { allowNull: false, notEmpty: true, unique: true },
     },
     latitude: {
       type: DataTypes.STRING,
-      allowNull: true,
-      defaultValue: null,
+      validate: { allowNull: true, defaultValue: null },
     },
     longitude: {
       type: DataTypes.STRING,
-      allowNull: true,
-      defaultValue: null,
+      validate: { allowNull: true, defaultValue: null },
     },
   });
 
