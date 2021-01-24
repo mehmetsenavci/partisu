@@ -17,7 +17,10 @@ module.exports = {
   }),
   createParty: asyncCatch(async (req, res) => {
     // TODO: Edit the +00:00 timezone
-    console.log(req.body.startTime);
+    const endTime = new Date(req.body.endTime);
+    const startTime = new Date(req.body.startTime);
+    console.log(new Date(req.body.startTime));
+    console.log(Date.now() < endTime);
 
     const newParty = await Party.create({
       creatorId: req.body.creatorId,

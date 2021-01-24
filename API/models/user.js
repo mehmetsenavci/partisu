@@ -9,15 +9,16 @@ module.exports = (sequelize, DataTypes) => {
     },
     firstName: {
       type: DataTypes.STRING,
-      validate: { allowNull: false },
+      allowNull: false,
     },
     lastName: {
       type: DataTypes.STRING,
-      validate: { allowNull: false },
+      allowNull: false,
     },
     dob: {
       type: DataTypes.DATEONLY,
-      validate: { allowNull: false, notEmpty: true },
+      allowNull: false,
+      validate: { notEmpty: true },
     },
     email: {
       type: DataTypes.STRING,
@@ -26,7 +27,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     username: {
       type: DataTypes.STRING,
-      validate: { allowNull: false, unique: true },
+      allowNull: false,
+      unique: true,
     },
     role: {
       type: DataTypes.ENUM,
@@ -35,7 +37,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
-      validate: { allowNull: false, notEmpty: true },
+      allowNull: false,
+      validate: { notEmpty: true },
     },
     passwordConfirm: {
       type: DataTypes.STRING,
@@ -44,7 +47,8 @@ module.exports = (sequelize, DataTypes) => {
     isActive: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
-      validate: { allowNull: false, notEmpty: true },
+      allowNull: false,
+      validate: { notEmpty: true },
     },
   });
 
